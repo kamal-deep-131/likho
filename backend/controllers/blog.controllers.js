@@ -21,7 +21,14 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
 });
 
 export const getBlogsById = asyncHandler(async (req, res) => {
-    res.send("getPostById")
+    const blogId = req.params.id
+    const blog = await Blog.find({ _id: blogId })
+    if (blog) {
+        return res.status(201).json(blog)
+    }
+    else {
+        return res.status(500).json({ message: "Blog not found" })
+    }
 });
 
 export const updateBlog = asyncHandler((req, res) => {

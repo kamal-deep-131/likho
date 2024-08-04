@@ -11,8 +11,13 @@ export const createBlog = asyncHandler(async (req, res) => {
     return res.status(201).send(savedBlog)
 });
 
-export const getAllBlogs = asyncHandler((req, res) => {
-    res.send("All posts")
+export const getAllBlogs = asyncHandler(async (req, res) => {
+    try {
+        const posts = await Blog.find();
+        return res.status(200).json(posts);
+    } catch (err) {
+        return res.status(500).json({ message: 'Failed to fetch posts', error: err.message });
+    }
 });
 
 export const getBlogsById = asyncHandler(async (req, res) => {
